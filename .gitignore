@@ -4,7 +4,6 @@ vendor
 certs/
 certs-data/
 logs/
-nginx/
 mysql/
 wordpress/wordpress
 wordpress/wp-content/*
