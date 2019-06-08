@@ -84,10 +84,6 @@ add_action('plugins_loaded', function() {
         'get_callback' => '\k1\getBlockData',
       ]);
     }
-
-    require_once("api/access.php");
-
-    (new \k1\Routes\Access)->registerRoutes();
   });
 
   function getAllowedCustomFields($post) {
