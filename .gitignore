@@ -1,6 +1,6 @@
 vendor
 .env*
-!.env_sample
+!.env_example
 .idea/
 certs/
 certs-data/
