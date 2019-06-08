@@ -7,7 +7,7 @@ _work in progress_
 
 The setup allows for a monolithic approach, but it's recommended to make a separate repository for every service so you can have a sensible commit history. This should only wrap those services together.
 
-The single page application is separated from WordPress entirely, and it runs at yourdomain.dev. WordPress runs at wp.yourdomain.dev, and the Express server runs at api.yourdomain.dev.
+The single page application is separated from WordPress entirely, and it runs at yourdomain.local. WordPress runs at wp.yourdomain.local, and the Express server runs at api.yourdomain.local.
 
 Using an Express server as the single page applications API server enables a zeroconf username-password authentication, that is free from the disadvantages of JWT, and doesn't require using nonces. Due to the nonce (CSRF) requirement and the data structure of the WordPress REST API, building single page applications is not optimal. The official recommendation is that you bake your SPA into a WordPress theme so you have access to wp_localize_script, and use it to get a nonce. The problem is that the nonce expires after a short amount of time of 12 hours, and to update it you either have to refresh the page or do hacky iframe stuff. You also get the overhead of loading WordPress, and your app isn't separated from it.
 
@@ -35,6 +35,14 @@ Create the .env file using the sample as reference.
 Configure `wordpress/ cra/ node/` directories first, and then create `.env` to the project root, replacing values from `.env_sample`. Just change the passwords ans salts if you're unsure about what to change.
 
 After that, you only have to edit the nginx configuration to match your domain, and create entries to your computers hosts file. Editing the config is just a matter of search and replace, read the rest of the docs if you're unsure.
+
+Replace `yourdomain.local` with whatever you want to use, and add the following lines to /etc/hosts.
+
+```
+127.0.0.1 yourdomain.local
+127.0.0.1 wp.yourdomain.local
+127.0.0.1 api.yourdomain.local
+```
 
 When everything is configured, run `docker-compose up`. Migrating an existing project is probably easiest if you start once with the default config, then replace the files and database with wp-cli.
 
