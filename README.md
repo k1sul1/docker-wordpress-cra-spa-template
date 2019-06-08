@@ -28,7 +28,7 @@ Run `npm install && npm run build` in the directory. Setup .env if necessary.
 
 `node/` directory should contain a NodeJS project. One already exists in the project directly because it powers the prerendering and the api proxy for the single page application.
 
-Create the .env file using the sample as reference.
+Create the .env file using the sample as reference and run `npm install`.
 
 `certs/ certs-data/ letsencrypt/ logs/ nginx/` are covered in the documents located in the `docs/` folder. Haven't tested this in production yet, but they should at least serve as a base.
 

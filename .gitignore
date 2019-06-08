@@ -1,5 +1,6 @@
 vendor
 .env*
+!.env_sample
 .idea/
 certs/
 certs-data/
@@ -8,6 +9,5 @@ mysql/
 wordpress/wordpress
 wordpress/wp-content/*
 !wordpress/config
-!.env_example
 !nginx/default*
 cra
