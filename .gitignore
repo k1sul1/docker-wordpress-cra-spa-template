@@ -5,9 +5,14 @@ vendor
 certs/
 certs-data/
 logs/
-mysql/
+
 wordpress/wordpress
-wordpress/wp-content/*
+/wordpress/wp-content/plugins/*
+/wordpress/wp-content/themes/*
+/wordpress/wp-content/uploads/*
+/wordpress/wp-content/languages/*
+!/wordpress/wp-content/plugins/k1-spa
+!/wordpress/wp-content/themes/spa
 !wordpress/config
-!nginx/default*
+
 cra
