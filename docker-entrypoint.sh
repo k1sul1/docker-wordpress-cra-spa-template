@@ -25,9 +25,8 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	fi
 
   # Have more folders which PHP needs write access to? Add them here
-  chown -R "$user:$group" wp-content/uploads
-  chown -R "$user:$group" wp-content/uploads
-  chown -R "$user:$group" wp-content/plugins/k1-spa/acf-json
+  [ -d "wp-content/uploads" ] && chown -R "$user:$group" wp-content/uploads
+  [ -d "wp-content/plugins/k1-spa/acf-json" ] && chown -R "$user:$group" wp-content/plugins/k1-spa/acf-json
 fi;
 
 exec "$@"
