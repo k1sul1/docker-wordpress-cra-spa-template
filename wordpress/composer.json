@@ -1,0 +1,76 @@
+{
+  "name": "k1sul1/wordpress-spa",
+  "description": "WordPress SPA",
+  "type": "project",
+  "license": "GPLv2",
+  "authors": [
+    {
+      "name": "Christian Nikkanen",
+      "email": "me@kisu.li"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://wp-languages.github.io"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "advanced-custom-fields/advanced-custom-fields-pro",
+        "version": "5.8.0",
+        "type": "wordpress-plugin",
+        "dist": {
+          "type": "zip",
+          "url": "https://connect.advancedcustomfields.com/index.php?t=5.8.0&p=pro&a=download&k=YOU_NEED_YOUR_OWN_LICENSE_M8"
+        }
+      }
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:k1sul1/k1-kit.git"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "johnpbloch/wordpress": "*",
+    "composer/installers": "v1.0.12",
+    "vlucas/phpdotenv": "^2.0.1",
+    "oscarotero/env": "^1.0",
+    "koodimonni/composer-dropin-installer": "^1.2",
+    "koodimonni-language/fi": "*",
+    "wp-api/basic-auth": "@dev",
+    "wpackagist-plugin/advanced-custom-fields": "*",
+    "k1sul1/k1kit": "dev-master"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "psy/psysh": "^0.9.9",
+    "rarst/wps": "1.1"
+  },
+  "extra": {
+    "installer-paths": {
+      "wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
+      "wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "wp-content/themes/{$name}": ["type:wordpress-theme"]
+    },
+    "dropin-paths": {
+      "wp-content/mu-plugins/": ["type:wordpress-muplugin"],
+      "wp-content/languages/": ["type:wordpress-language"],
+      "wp-content/languages/plugins/": ["vendor:wordpress-plugin-language"],
+      "wp-content/languages/themes/": ["vendor:wordpress-theme-language"],
+      "wp-content/": [
+        "package:wpackagist-plugin/wp-redis:object-cache.php",
+        "package:wpackagist-plugin/wordpress-mu-domain-mapping:sunrise.php",
+        "type:wordpress-dropin"]
+    },
+    "wordpress-install-dir": "wordpress"
+  },
+  "scripts": {
+
+  }
+}

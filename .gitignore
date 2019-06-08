@@ -1,0 +1,14 @@
+vendor
+.env*
+.idea/
+certs/
+certs-data/
+logs/
+nginx/
+mysql/
+wordpress/wordpress
+wordpress/wp-content/*
+!wordpress/config
+!.env_example
+!nginx/default*
+cra

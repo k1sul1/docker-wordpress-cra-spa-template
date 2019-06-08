@@ -1,0 +1,102 @@
+version: '3.6'
+services:
+  ###
+  ### Generics
+  ###
+  nginx:
+    image: nginx:${NGINX_VERSION:-latest}
+    container_name: nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ${NGINX_CONF_DIR:-./nginx}:/etc/nginx/conf.d
+      - ${NGINX_LOG_DIR:-./logs/nginx}:/var/log/nginx
+      - ${WORDPRESS_DATA_DIR:-./wordpress}:/var/www/wp
+      - ${NODE_DATA_DIR:-./node}:/var/www/api
+      - ${CRA_DATA_DIR:-./cra}:/var/www/cra
+      - ${SSL_CERTS_DIR:-./certs}:/etc/letsencrypt
+      - ${SSL_CERTS_DATA_DIR:-./certs-data}:/data/letsencrypt
+    depends_on:
+      - wordpress
+    restart: always
+
+  ###
+  ### wp.kisu.li
+  ###
+  wordpress:
+    # image: wordpress:${WORDPRESS_VERSION:-php7.3-fpm}
+    build: .
+    container_name: wordpress
+    volumes:
+      - ./wordpress:/var/www/wp
+    environment:
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME:-wordpress}
+      - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX:-wp_}
+      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST:-mysql}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER:-root}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD:-password}
+    depends_on:
+      - mysql
+      - wpredis
+    restart: always
+
+  wpcli:
+    image: wordpress:cli-2.2.0-php7.3
+    container_name: wpcli
+    depends_on:
+      - wordpress
+    volumes:
+      - ./wordpress:/var/www/html # The image opens in /var/www/html
+
+  wpredis:
+    image: redis:3.2
+    container_name: wpredis
+    deploy:
+      resources:
+        reservations: # Ensure redis has at least this much
+          cpus: '0.25'
+          memory: 20M
+
+
+  mysql:
+    image: mariadb:${MARIADB_VERSION:-latest}
+    container_name: mysql
+    volumes:
+      # - ./mysql:/var/lib/mysql
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-password}
+      - MYSQL_USER=${MYSQL_USER:-root}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-wordpress}
+    restart: always
+
+  ###
+  ### api.kisu.li
+  ###
+  node:
+    image: buildkite/puppeteer:latest
+    container_name: node
+    volumes:
+      - ${NODE_DATA_DIR:-./node}:/api
+    # depends_on:
+      # - wordpress
+    # command: "wait-for-it.sh nginx:80 -- node /api/index.js"
+    command: >
+     bash -c "cd /api && npm run dev"
+    restart: always
+    ports:
+      - 9229:9229 # For debugging
+
+  noderedis:
+    image: redis:3.2
+    container_name: noderedis
+    deploy:
+      resources:
+        reservations: # Ensure redis has at least this much
+          cpus: '0.25'
+          memory: 20M
+
+volumes:
+  db-data:
