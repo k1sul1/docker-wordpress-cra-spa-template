@@ -101,3 +101,17 @@ Rename object-cache.php to disabled.object-cache.php
 
 ### How do I flush Redis in WordPress?
 `wp cache flush`
+
+----------------------------------------------
+
+## Made possible by
+https://github.com/anttiviljami/wordpress-heroku-docker-project
+
+Showed me how fast and easy Docker development environments can be
+
+https://github.com/mjstealey/wordpress-nginx-docker
+
+Awesome documentation and easy to follow project structure, which made taking this in a completely different direction easy.
+
+## Licence
+MIT
