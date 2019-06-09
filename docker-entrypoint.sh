@@ -29,4 +29,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
   [ -d "wp-content/plugins/k1-spa/acf-json" ] && chown -R "$user:$group" wp-content/plugins/k1-spa/acf-json
 fi;
 
+rm -rf /var/www/wp/wordpress/wp-content
+ln -sf /var/www/wp/wp-content/ /var/www/wp/wordpress/wp-content
+
 exec "$@"
