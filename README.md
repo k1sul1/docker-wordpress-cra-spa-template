@@ -64,14 +64,19 @@ TL;DR: it doesn't matter. For local development, run it on your host machine to 
 Yes. You probably have to. When you make changes to Dockerfile or docker-entrypoint.sh, rebuild with `docker-compose up --build`. Changes to other configuration files are applied on each `docker-compose up`, so restarting the container will do for other configuration files. You can also just `docker-compose exec nginx bash` to the container and reload the config manually
 
 ### I seem to have lost my plugins and themes
-You probably broke the symlink, or Composer broke the symlink. wp-content/ directory is symlinked to wordpress/wp-content, and if that breaks, WordPress will have to use the defaults. Rebuilding the image is the easiest fix, but you can fix it manually.
+You probably broke the symlink, or Composer broke the symlink. wp-content/ directory is symlinked to wordpress/wp-content, and if that breaks, WordPress will have to use the defaults. It should be fixed by simply rebooting the containers, but if that doesn't, something else is probably broken, like permissions. Rebuilding might work, or you can fix it manually.
 
+To fix the symlink
 ```
 $ docker-compose exec wordpress bash
-rm -rf wordpress/wp-content; ln -sf $(pwd)/wp-content wordpress/wp-content;
+rm -rf /var/www/wp/wordpress/wp-content; ln -sf /var/www/wp/wp-content /var/www/wp/wordpress/wp-content;
 ```
-
 That will delete the contents of wp-content in the directory nginx is serving. After that it will create a new symlink, and you should see everything again. As long as you never edit anything under wordpress/wordpress, you won't see any data loss.
+
+### I can't upload files or edit some files on the server
+Permissions are broken. Easiest fix you can try is `docker-compose up --build`. It usually works, but if it doesn't, you might have to fix things manually. The docker-entrypoint.sh chowns the uploads and k1-spa/acf-json directories to www-data, so PHP has write access. If you need to have more folders editable, add them there.
+
+Do not chown the whole wordpress folder to www-data, as you will lose write access to those files on the host. 
 
 ### How do I develop plugins and themes on this?
 If you're developing a plugin or theme that is only going to be used in this project, just add it to wp-content/plugins, and add it to the project with `git add -f`.
@@ -101,6 +106,9 @@ Rename object-cache.php to disabled.object-cache.php
 
 ### How do I flush Redis in WordPress?
 `wp cache flush`
+
+### How do I enable SSL?
+See docs folder, and just try the letsencrypt scripts. Demo implementation coming soon as I'll open source https://kisu.li.
 
 ----------------------------------------------
 
