@@ -103,10 +103,8 @@ VOLUME /var/www/wp
 ADD ./wordpress /var/www/wp
 WORKDIR /var/www/wp
 
-RUN composer global require hirak/prestissimo;
-RUN set -ex; \
-  # composer install; \ # Running this here will fuck up permissions.
-  rm -rf wordpress/wp-content; ln -sf $(pwd)/wp-content wordpress/wp-content;
+# This makes Composer fast
+RUN composer global require hirak/prestissimo; 
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
