@@ -15,6 +15,17 @@ else
   LE_DIR=$(pwd)
   cd ../
 fi
+
+echo ""
+echo "WARNING: This script will build your containers and break file permissions, and you need to fix it afterwards."
+echo "WARNING: You will also need to edit the nginx config, but you just might get away with adding this"
+echo "WARNING: to each server block: include /etc/nginx/conf.d/ssl.inc;"
+echo "WARNING: You might even need to edit the script itself if you have different (sub)-domains."
+echo "WARNING: If you're not ready, press CTRL + C. Script continues in 5 seconds."
+sleep 5
+echo ""
+
+
 REPO_DIR=$(dirname ${LE_DIR})
 
 # get full directory path
@@ -92,7 +103,9 @@ docker run -it --rm \
     certbot/certbot \
     certonly \
     --webroot --webroot-path=/data/letsencrypt \
-    -d ${FQDN_OR_IP} -d www.${FQDN_OR_IP}
+    -d ${FQDN_OR_IP} -d api.${FQDN_OR_IP} -d wp.${FQDN_OR_IP}
+    
+# Just add entries for all domains you need a certificate for above
 
 cd ${REPO_DIR}
 docker-compose stop
@@ -107,10 +120,7 @@ cd ${LE_DIR}
 rm -f ${REPO_DIR}/lets_encrypt.conf
 
 echo "INFO: update the nginx/default.conf file"
-echo "-  4:   server_name ${FQDN_OR_IP};"
-echo "- 19:   server_name               ${FQDN_OR_IP} www.${FQDN_OR_IP};"
-echo "- 40:   ssl_certificate           /etc/letsencrypt/live/${FQDN_OR_IP}/fullchain.pem;"
-echo "- 41:   ssl_certificate_key       /etc/letsencrypt/live/${FQDN_OR_IP}/privkey.pem;"
-echo "- 42:   ssl_trusted_certificate   /etc/letsencrypt/live/${FQDN_OR_IP}/chain.pem;"
+echo "INFO: include ssl.inc in each server block"
+echo "INFO: include /etc/nginx/conf.d/ssl.inc"
 
 exit 0;
