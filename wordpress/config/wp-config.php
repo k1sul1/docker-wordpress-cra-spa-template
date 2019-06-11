@@ -16,7 +16,7 @@ if (file_exists($root_dir . '/.env')) {
   $dotenv->load();
 }
 
-define('WP_ENV', strtolower(env('WP_ENV') ?? 'local'));
+define('WP_ENV', strtolower(env('WP_ENV') ?? 'development'));
 
 /**
  * Set URLs for WP
@@ -87,13 +87,14 @@ $table_prefix = 'wp_';
 
 switch (WP_ENV) {
   case 'production':
-    define('FORCE_SSL_ADMIN', true);
+    // Configure Let's Encrypt and enable this.
+    // define('FORCE_SSL_ADMIN', true);
     define('WP_DEBUG_DISPLAY', false);
     define('SCRIPT_DEBUG', false);
     define('WP_DEBUG', false);
   break;
 
-  case 'local':
+  case 'development':
     define('SAVEQUERIES', true);
     define('WP_DEBUG', true);
     define('SCRIPT_DEBUG', true);
