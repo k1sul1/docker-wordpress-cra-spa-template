@@ -16,6 +16,9 @@ const isAFuckingObject = x => typeof x === 'object' && x !== null && !Array.isAr
  * You can also just disable this function if you'd rather have these parts unchanged.
  */
 const flattenRendered = obj => {
+    if (!Object.keys(modified.taxonomies).length) {
+      delete modified.taxonomies
+    }
   return !isAFuckingObject(obj) ? obj : Object.keys(obj).reduce((acc, k) => {
     acc[k] = obj[k] && obj[k].rendered ? obj[k].rendered : flattenRendered(obj[k])
 
@@ -98,6 +101,10 @@ module.exports = function wp(postTypes, taxonomies) {
       }
 
       delete modified._embedded
+    }
+    
+    if (!Object.keys(modified.taxonomies).length) {
+      delete modified.taxonomies
     }
 
     return modified
