@@ -45,7 +45,13 @@
     "koodimonni-language/fi": "*",
     "wp-api/basic-auth": "@dev",
     "wpackagist-plugin/advanced-custom-fields": "*",
-    "k1sul1/k1kit": "dev-master"
+    "k1sul1/k1kit": "dev-master",
+    "wpackagist-plugin/imsanity": "^2.4",
+    "wpackagist-plugin/ewww-image-optimizer": "^4.9",
+    "devgeniem/wp-sanitize-accented-uploads": "^1.2",
+    "wpackagist-plugin/disable-emojis": "^1.7",
+    "wpackagist-plugin/safe-svg": "^1.9"
+
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "*",
@@ -59,7 +65,6 @@
       "wp-content/themes/{$name}": ["type:wordpress-theme"]
     },
     "dropin-paths": {
-      "wp-content/mu-plugins/": ["type:wordpress-muplugin"],
       "wp-content/languages/": ["type:wordpress-language"],
       "wp-content/languages/plugins/": ["vendor:wordpress-plugin-language"],
       "wp-content/languages/themes/": ["vendor:wordpress-theme-language"],
