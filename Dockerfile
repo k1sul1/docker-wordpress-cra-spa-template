@@ -96,6 +96,7 @@ opcache.enable_cli = 1 \n\
 opcache.validate_timestamps = 1 \n\
 opcache.revalidate_freq = 0 \n\
 opcache.fast_shutdown = 0 \n\
+output_buffering = 4096 \n\
 " > /usr/local/etc/php/conf.d/settings.ini
 
 VOLUME /var/www/wp
